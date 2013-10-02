@@ -1,6 +1,7 @@
 
 public class SJBuffer extends Job {
 
+
 	@Override
 	public void tape2Disk() {
 		int tapeCode = jobCode;//the amount of code for the  job that is on the tape and needs to be moved(200)
@@ -26,7 +27,7 @@ public class SJBuffer extends Job {
 
 	@Override
 	public void disk2memory() {
-		int diskCode = jobCode;//the amount of code ly on the disk that needs to be moved to memory
+		int diskCode = jobCode;//the amount of code left on the disk that needs to be moved to memory
 		int block = diskBlock;
 		int t = diskTime;
 		//keep moving code for this job until it is all off the disk
@@ -68,7 +69,7 @@ public class SJBuffer extends Job {
 				tapeData -= block;
 				diskSize -= block; 
 				data_on_Disk += block;//add a block of data to the disk
-				System.out.println("Data_on_Disk: "+data_on_Disk);//debugging
+				//System.out.println("Data_on_Disk: "+data_on_Disk);//debugging
 				System.out.println("Tape to Disk transfer - data for job "+jobName+"      " + total_time );
 				total_time += t;
 				system_time += t;

@@ -12,7 +12,10 @@ public abstract class Job {
 	public int system_time = 0;//time spent by the system
 	public int execute_time = 0;
 	public int total_time = 0;
-	public int savedBufferTime = 0;
+	public int savedBufferTime = 0;//amount of time saved by a buffering session
+	public int savedSpoolTime = 0;//amount of time saved by a spooling session
+	public int spoolCount = 0;//the # of times spooling has occured
+	public int jobCount;//the #of jobs jobs.dat
 	public int tapeData;//the amount of data on the tape
 	public int diskData;//the amount of data on the disk
 	public int jobCode = 200;//the size of the jobCode for a job
@@ -23,14 +26,12 @@ public abstract class Job {
 	public int jobLength;//the number of elements in jobDescription (i.e. 200 50 200 is 3)
 	public int jdCount = 0;//iterates the jobDescription array
 	public String jobName;//for string output formatting
-	
+	public boolean run = true;//halts the running job when false
+
+	//abstract methods
 	public abstract void tape2Disk();
 	public abstract void disk2memory();
-	
 	public abstract void dataTape2Disk();
 	public abstract void dataDisk2Memory();
-	
-	
-
 	public abstract void execute(int burst);
 }

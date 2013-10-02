@@ -67,7 +67,7 @@ public class SingleJob extends Job {
 					tapeData -= block;
 					diskSize -= block; 
 					data_on_Disk += block;//add a block of data to the disk
-					System.out.println("Data_on_Disk: "+data_on_Disk);//debugging
+					//System.out.println("Data_on_Disk: "+data_on_Disk);//debugging
 					System.out.println("Tape to Disk transfer - data for job "+jobName+"      " + total_time );
 					total_time += t;
 					system_time += t;
@@ -86,7 +86,7 @@ public class SingleJob extends Job {
 			int block = diskBlock;
 			int t = diskTime;
 			//keep moving data for this job until it is all off the disk
-			System.out.println("bufferSpace:"+bufferSpace+ "  block: "+block);//debugging
+			//System.out.println("bufferSpace:"+bufferSpace+ "  block: "+block);//debugging
 			while(bufferSpace > 0){
 				if( bufferSpace >= block)
 				{
@@ -96,7 +96,7 @@ public class SingleJob extends Job {
 					System.out.println("Disk to memory transfer - data for job "+jobName+ "    " + total_time);
 					total_time += t;
 					system_time += t;
-					System.out.println("bufferSpace:"+bufferSpace+ "  block: "+block+"diskData: "+ diskData);
+					//System.out.println("bufferSpace:"+bufferSpace+ "  block: "+block+"diskData: "+ diskData);//debugging
 					
 					//System.out.println(diskData);//debug
 					//System.out.println("memSize: " + memSize + " block: " + block+"");//debug
@@ -132,7 +132,7 @@ public class SingleJob extends Job {
 			else  if(jdCount%2 != 0)//read Data element of job description ***this condition might not be necessary
 			{
 				System.out.println("Need data for job "+jobName+"                         "+ total_time +'\n');
-				System.out.println("data_in_buffer: "+data_in_Buffer);//debugging
+				//System.out.println("data_in_buffer: "+data_in_Buffer);//debugging
 				
 				if((data_in_Buffer == 0)&&(data_on_Disk==0))//data buffer is empty and no data on disk
 				{
@@ -145,5 +145,8 @@ public class SingleJob extends Job {
 			}
 			
 		}
+
+
+		
 
 }

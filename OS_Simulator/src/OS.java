@@ -39,12 +39,14 @@ public class OS {
                 		s2.close();
                 	}
                 }
-                //execute this job line description
-                j.tape2Disk();
-                
+                //execute the current job description
+                //System.out.println(j.run);debugging
+                j.tape2Disk();    
             }
+            j.run=false;
         } finally {
             if (s != null) {
+            	
                 s.close();
             }
         }
@@ -52,20 +54,32 @@ public class OS {
         System.out.println("All jobs done                                 "+j.total_time + "\n");
         System.out.println("Time to complete all jobs                     "+j.total_time);
         System.out.println("Time spent executing user jobs                "+j.execute_time);
-        System.out.println("Time spent by the system                      "+j.system_time);
+        System.out.println("Time spent by the system                      "+j.system_time + "\n\n");
     }
 
 	
 	
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		// TODO Auto-generated method stub
 		
+		//create an instance of the driver class OS
 		OS os = new OS();
-		//SingleJob sj = new SingleJob();
-		//os.readFile(sj);
+		
+		//create and run an instance of a Single Job with no buffering or spooling
+		SingleJob sj = new SingleJob();
+		System.out.println("Single Job - No Buffering or Spooling");
+		os.readFile(sj);
+		
+		//create and run an instance of a Single Job with Buffering, NO Spooling
 		SJBuffer sjb = new SJBuffer();
+		System.out.println("Single Job with Buffering - No Spooling");
 		os.readFile(sjb);
+		
+		//create and run an instance of a Single Job with Buffering AND Spooling
+		System.out.println("Single Job with Buffering AND Spooling");
+		SJBuffSpool sjbs = new SJBuffSpool();
+		os.readFile(sjbs);
+		
 		
 		
 
