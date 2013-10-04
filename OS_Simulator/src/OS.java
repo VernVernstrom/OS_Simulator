@@ -24,6 +24,7 @@ public class OS {
             {
 
                 j.jobName = s.next();//the name of this job (one, two, three, etc)
+                j.jobCount +=1;
                 Scanner s2 = new Scanner(s.nextLine());//reads a line of job description
                 //creates an array of the job description {burst, data, burst, data,...,burst}
                 j.jobLength=0;
@@ -32,6 +33,7 @@ public class OS {
                 	j.jobDescription[j.jobLength] = Integer.parseInt(s2.next());
                 	//System.out.println("JobLength: "+j.jobLength);//debug
                 	j.jobLength+=1;	
+                	
                 }
                 
                 {
@@ -40,8 +42,8 @@ public class OS {
                 	}
                 }
                 //execute the current job description
-                //System.out.println(j.run);debugging
-                j.tape2Disk();  
+                System.out.println(j.jobCount);//debugging
+                j.tape2Disk();  //run the job
             }
             j.run=false;
         } finally {
@@ -67,14 +69,14 @@ public class OS {
 		OS os = new OS();
 		
 		//create and run an instance of a Single Job with no buffering or spooling
-		SingleJob sj = new SingleJob();
+		/**SingleJob sj = new SingleJob();
 		System.out.println("**Single Job - No Buffering or Spooling**\n");
 		os.readFile(sj);
 		
 		//create and run an instance of a Single Job with Buffering, NO Spooling
 		SJBuffer sjb = new SJBuffer();
 		System.out.println("\n\n**Single Job with Buffering - No Spooling**\n");
-		os.readFile(sjb);
+		os.readFile(sjb);**/
 		
 		//create and run an instance of a Single Job with Buffering AND Spooling
 		System.out.println("\n\n**Single Job with Buffering and Spooling**\n");

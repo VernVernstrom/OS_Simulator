@@ -106,7 +106,8 @@ public class SJBuffSpool extends Job {
 		System.out.println("Input buffer full for job "+jobName+"                 "+ total_time+'\n');
 		
 		//spool next jobs code while there is more code to get
-		if(run==true)
+		//System.out.println("SPOOLCOUNT: "+spoolCount + "JobCount: "+jobCount);//debug
+		if(spoolCount<jobCount)
 		{
 			spool();//move code from tape to disk
 		}
@@ -136,6 +137,7 @@ public class SJBuffSpool extends Job {
 		else  if(jdCount%2 != 0)//data ready to be brought in
 		{
 			System.out.println("Need data for job "+jobName+"                         "+ total_time +'\n');
+			System.out.println("Data moved from DMA to CPU" + "                    "+ total_time+'\n');
 			System.out.println("Continue job "+jobName+"                              "+ total_time+'\n');
 			jdCount+=1;//get cpu burst from job description
 			if((data_in_Buffer == 0)&&(jdCount<jobLength-1))//buffer is empty and the last data was processed
@@ -151,18 +153,21 @@ public class SJBuffSpool extends Job {
 		
 	}
 	
-	//move the next jobs code from tape to disk ***NOTE Spooling only works if there are 3 jobs in the jobs.dat file
+	//move the next jobs code from tape to disk 
 	public void spool() {
 		
 		//create new string for naming the next job
-		String spoolJob = "";
+		String spoolJob = ""+jobCount;
 		spoolCount+=1;
 		if(spoolCount == 1){
 			spoolJob = "two";
 		}
-		else{
+		else if(spoolCount == 2){
 			spoolJob = "thr";
 			//run=false;
+		}
+		else{
+			spoolJob = ""+jobCount;
 		}
 		int tapeCode = jobCode;//the amount of code for the  job that is on the tape and needs to be moved(200)
 		int block = tapeBlock;
@@ -175,7 +180,7 @@ public class SJBuffSpool extends Job {
 			{
 				tapeCode -= block;
 				diskSize -= block;
-				System.out.println("Tape to Disk transfer - code for job "+spoolJob+"      " + total_time);
+				System.out.println("Tape to Disk transfer - code for job "+spoolJob+"    " + total_time);
 				total_time += t;
 				savedSpoolTime +=t;
 			}

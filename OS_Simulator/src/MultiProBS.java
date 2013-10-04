@@ -106,8 +106,10 @@ public class MultiProBS extends Job {
 		System.out.println("Input buffer full for job "+jobName+"                 "+ total_time+'\n');
 		
 		//spool next jobs code while there is more code to get
+		System.out.println("SPOOLCOUNT: "+spoolCount+" JOBCOUNT: "+jobCount);
 		if(spoolCount<2)
 		{
+			
 			spool();//move code from tape to disk
 		}
 		//otherwise execute a cpu burst
@@ -156,13 +158,20 @@ public class MultiProBS extends Job {
 	public void spool() {
 		
 		//create new string for naming the next job
+		String spoolJob = ""+jobCount;
 		spoolCount+=1;
-		if(spoolCount == 1){
+		if(spoolCount == 1)
+		{
 			spoolJob = "two";
 		}
-		else{
+		else if(spoolCount == 2)
+		{
 			spoolJob = "thr";
 			//run=false;
+		}
+		else
+		{
+			spoolJob = ""+jobCount;
 		}
 		int tapeCode = jobCode;//the amount of code for the  job that is on the tape and needs to be moved(200)
 		int block = tapeBlock;
@@ -175,7 +184,7 @@ public class MultiProBS extends Job {
 			{
 				tapeCode -= block;
 				diskSize -= block;
-				System.out.println("Tape to Disk transfer - code for job "+spoolJob+"      " + total_time);
+				System.out.println("SPOOLING: Tape to Disk transfer - code for job "+spoolJob+"      " + total_time);
 				total_time += t;
 				savedSpoolTime +=t;
 			}
@@ -196,7 +205,7 @@ public class MultiProBS extends Job {
 				savedSpoolTime +=t;
 				}
 			}
-		
+	
 		System.out.println("Code for job "+spoolJob+" one in memory                " + total_time +"\n");
 
 		//transfer code from disk to memory after all units for this job are on the disk
