@@ -41,7 +41,7 @@ public class OS {
                 }
                 //execute the current job description
                 //System.out.println(j.run);debugging
-                j.tape2Disk();    
+                j.tape2Disk();  
             }
             j.run=false;
         } finally {
@@ -60,25 +60,30 @@ public class OS {
 	
 	
 	
+	
 	public static void main(String[] args) throws FileNotFoundException {
 		
 		//create an instance of the driver class OS
 		OS os = new OS();
 		
 		//create and run an instance of a Single Job with no buffering or spooling
-		SingleJob sj = new SingleJob();
-		System.out.println("Single Job - No Buffering or Spooling");
+		/**SingleJob sj = new SingleJob();
+		System.out.println("**Single Job - No Buffering or Spooling\n**");
 		os.readFile(sj);
 		
 		//create and run an instance of a Single Job with Buffering, NO Spooling
 		SJBuffer sjb = new SJBuffer();
-		System.out.println("Single Job with Buffering - No Spooling");
+		System.out.println("**Single Job with Buffering - No Spooling\n**");
 		os.readFile(sjb);
 		
 		//create and run an instance of a Single Job with Buffering AND Spooling
-		System.out.println("Single Job with Buffering AND Spooling");
+		System.out.println("**Single Job with Buffering and Spooling**\n");
 		SJBuffSpool sjbs = new SJBuffSpool();
-		os.readFile(sjbs);
+		os.readFile(sjbs);**/
+		
+		System.out.println("**Multiple Job - Buffering and Spooling**");
+		MultiProBS mp = new MultiProBS();
+		os.readFile(mp);
 		
 		
 		

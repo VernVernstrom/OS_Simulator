@@ -83,7 +83,7 @@ public class SJBuffSpool extends Job {
 			
 			}
 		}
-		System.out.println("Data for job " + jobName +" on disk                      " +total_time);
+		System.out.println("Data for job " + jobName +" on disk                      " +total_time + "\n");
 		//transfer from disk to memory after all units for this job are on the disk
 		dataDisk2Memory();
 	}
@@ -117,6 +117,7 @@ public class SJBuffSpool extends Job {
 		execute(burst);//execute this burst of job code
 	}
 
+	
 	@Override
 	public void execute(int burst) {//TODO fix the if then else of this method
 		jdCount+=1;//increment for conditional control(get data from job description)
@@ -174,7 +175,7 @@ public class SJBuffSpool extends Job {
 			{
 				tapeCode -= block;
 				diskSize -= block;
-				System.out.println("Tape to Disk transfer - code for job "+spoolJob+"      " + total_time );
+				System.out.println("SPOOLING: Tape to Disk transfer - code for job "+spoolJob+"      " + total_time);
 				total_time += t;
 				savedSpoolTime +=t;
 			}

@@ -22,10 +22,12 @@ public abstract class Job {
 	public int jobData = 100;//size of the data for a Job
 	public int data_on_Disk = 0;//amt of data on the disk
 	public int data_in_Buffer = 0;//amt of data in the buffer
-	public Integer [] jobDescription = new Integer[20];
+	public Integer [] jobDescription = new Integer[20];//array where each entry is a string token of a line of job description
 	public int jobLength;//the number of elements in jobDescription (i.e. 200 50 200 is 3)
 	public int jdCount = 0;//iterates the jobDescription array
+	public int burst;//the size of the cpu burst
 	public String jobName;//for string output formatting
+	public String spoolJob = "";
 	public boolean run = true;//halts the running job when false
 
 	//abstract methods
