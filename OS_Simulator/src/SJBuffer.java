@@ -45,7 +45,7 @@ public class SJBuffer extends Job {
 		
 		System.out.println("Code for job "+jobName+" one in memory                " + total_time +"\n");
 		//Execute the job when all of it's code is in memory
-		int burst = jobDescription[jdCount];
+		burst = jobDescription[jdCount];
 		if(jdCount == 0){
 			System.out.println("Start executing job "+jobName+"                       "+ total_time +'\n');
 			//start buffering
@@ -107,7 +107,7 @@ public class SJBuffer extends Job {
 	total_time -= savedBufferTime;//subtract time saved from total time
 	system_time -= savedBufferTime;//subtract time saved from system time
 	savedBufferTime = 0;//reset for next buffering session
-	int burst = jobDescription[jdCount];//get the cpu burst amt 
+	burst = jobDescription[jdCount];//get the cpu burst amt 
 	execute(burst);
 
 	}

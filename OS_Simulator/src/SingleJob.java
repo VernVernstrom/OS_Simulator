@@ -46,7 +46,7 @@ public class SingleJob extends Job {
 		
 		System.out.println("Code for job "+jobName+" one in memory                " + total_time +"\n");
 		//Execute the job when all of it's code is in memory
-		int burst = jobDescription[jdCount];
+		burst = jobDescription[jdCount];
 		if(jdCount == 0){
 			System.out.println("Start executing job "+jobName+"                       "+ total_time +'\n');
 		}
@@ -108,7 +108,7 @@ public class SingleJob extends Job {
 			System.out.println("Continue job "+jobName+"                              "+ total_time+'\n');
 			//Execute the job when all of it's code is in memory
 			jdCount+=1;//CPU BURST
-			int burst = jobDescription[jdCount];
+			burst = jobDescription[jdCount];
 			//System.out.println("JDCOUNT dataD2M: "+ jdCount +'\n');//debug
 			jdCount+=1;//data
 			bufferSpace += block;//data processed, made room in buffer

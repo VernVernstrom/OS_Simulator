@@ -113,7 +113,7 @@ public class SJBuffSpool extends Job {
 		total_time -= savedBufferTime;//subtract time saved from total time
 		system_time -= savedBufferTime;//subtract time saved from system time
 		savedBufferTime = 0;//reset for next buffering session
-		int burst = jobDescription[jdCount];//get the cpu burst amt from the job description
+		burst = jobDescription[jdCount];//get the cpu burst amt from the job description
 		execute(burst);//execute this burst of job code
 	}
 
@@ -175,7 +175,7 @@ public class SJBuffSpool extends Job {
 			{
 				tapeCode -= block;
 				diskSize -= block;
-				System.out.println("SPOOLING: Tape to Disk transfer - code for job "+spoolJob+"      " + total_time);
+				System.out.println("Tape to Disk transfer - code for job "+spoolJob+"      " + total_time);
 				total_time += t;
 				savedSpoolTime +=t;
 			}
