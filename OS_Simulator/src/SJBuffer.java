@@ -128,6 +128,7 @@ public class SJBuffer extends Job {
 		else  if(jdCount%2 != 0)//data ready to be brought in
 		{
 			System.out.println("Need data for job "+jobName+"                         "+ total_time +'\n');
+			System.out.println("Data for "+jobName+" moved from DMA to CPU            "+ total_time +'\n');
 			System.out.println("Continue job "+jobName+"                              "+ total_time+'\n');
 			jdCount+=1;//get cpu burst from job description
 			if((data_in_Buffer == 0)&&(jdCount<jobLength-1))//buffer is empty and the last data was processed

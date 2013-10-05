@@ -28,7 +28,8 @@ public abstract class Job {
 	public int burst;//the size of the cpu burst
 	public String jobName;//for string output formatting
 	public String spoolJob = "";
-	public boolean run = true;//halts the running job when false
+	
+	
 
 	//abstract methods
 	public abstract void tape2Disk();

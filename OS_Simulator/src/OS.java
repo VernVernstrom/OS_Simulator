@@ -8,6 +8,21 @@ public class OS {
 	//this class reads the input file and creates an instance of each simulator(SingleJob, SJBuff, SJobBuffSpool, MultiBuffSpool) 
 	//and runs each simulator with the data from the input file
 	public void readFile(Job j) throws FileNotFoundException{
+		/**
+		 * LineNumberReader reads the Jobs.dat and counts the number of lines in the file.
+		 * Since the given input format has 5 lines of data specifying device space, transfer sizes, and transfer times,
+		 * the remaining lines should equal the number of jobs in the file. Therefore: the number of jobs (j.jobCount) = lnr.getLineNumber()-5;
+		 */
+		LineNumberReader  lnr = new LineNumberReader(new FileReader(new File("Jobs.dat")));
+		try {
+			lnr.skip(Long.MAX_VALUE);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		j.jobCount = lnr.getLineNumber()-5;//
+		System.out.println(lnr.getLineNumber());
+		
 		Scanner s = null;
 
         try {
@@ -22,9 +37,9 @@ public class OS {
             j.bufferSpace = Integer.parseInt(s.next());//50
             while (s.hasNext()) 
             {
-
+            	
                 j.jobName = s.next();//the name of this job (one, two, three, etc)
-                j.jobCount +=1;
+                //j.jobCount +=1;
                 Scanner s2 = new Scanner(s.nextLine());//reads a line of job description
                 //creates an array of the job description {burst, data, burst, data,...,burst}
                 j.jobLength=0;
@@ -45,7 +60,7 @@ public class OS {
                 System.out.println(j.jobCount);//debugging
                 j.tape2Disk();  //run the job
             }
-            j.run=false;
+
         } finally {
             if (s != null) {
             	
@@ -79,9 +94,9 @@ public class OS {
 		os.readFile(sjb);**/
 		
 		//create and run an instance of a Single Job with Buffering AND Spooling
-		System.out.println("\n\n**Single Job with Buffering and Spooling**\n");
+		/**System.out.println("\n\n**Single Job with Buffering and Spooling**\n");
 		SJBuffSpool sjbs = new SJBuffSpool();
-		os.readFile(sjbs);
+		os.readFile(sjbs);**/
 		
 		//create and run an instance of MultipleJobs with Buffering and Spooling
 		System.out.println("\n\n**Multiple Job - Buffering and Spooling**\n");
