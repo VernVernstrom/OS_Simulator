@@ -21,10 +21,10 @@ public class OS {
 			e.printStackTrace();
 		}
 		j.jobCount = lnr.getLineNumber()-5;//
-		System.out.println(lnr.getLineNumber());
+		//System.out.println(lnr.getLineNumber());debugging
 		
 		Scanner s = null;
-
+		//assign Job instance variables to corresponding values in Jobs.dat file
         try {
             s = new Scanner(new BufferedReader(new FileReader("Jobs.dat")));
             j.tapeBlock = Integer.parseInt(s.next());//100
@@ -57,13 +57,13 @@ public class OS {
                 	}
                 }
                 //execute the current job description
-                System.out.println(j.jobCount);//debugging
+                j.runCount+=1;
                 j.tape2Disk();  //run the job
+                
             }
 
         } finally {
             if (s != null) {
-            	
                 s.close();
             }
         }
@@ -84,21 +84,24 @@ public class OS {
 		OS os = new OS();
 		
 		//create and run an instance of a Single Job with no buffering or spooling
-		/**SingleJob sj = new SingleJob();
+		SingleJob sj = new SingleJob();
 		System.out.println("**Single Job - No Buffering or Spooling**\n");
 		os.readFile(sj);
 		
 		//create and run an instance of a Single Job with Buffering, NO Spooling
 		SJBuffer sjb = new SJBuffer();
+		System.out.println("-------------------------------------------------------------------");
 		System.out.println("\n\n**Single Job with Buffering - No Spooling**\n");
-		os.readFile(sjb);**/
+		os.readFile(sjb);
 		
 		//create and run an instance of a Single Job with Buffering AND Spooling
-		/**System.out.println("\n\n**Single Job with Buffering and Spooling**\n");
+		System.out.println("-------------------------------------------------------------------");
+		System.out.println("\n\n**Single Job with Buffering and Spooling**\n");
 		SJBuffSpool sjbs = new SJBuffSpool();
-		os.readFile(sjbs);**/
+		os.readFile(sjbs);
 		
 		//create and run an instance of MultipleJobs with Buffering and Spooling
+		System.out.println("-------------------------------------------------------------------");
 		System.out.println("\n\n**Multiple Job - Buffering and Spooling**\n");
 		MultiProBS mp = new MultiProBS();
 		os.readFile(mp);

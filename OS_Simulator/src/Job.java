@@ -16,6 +16,7 @@ public abstract class Job {
 	public int savedSpoolTime = 0;//amount of time saved by a spooling session
 	public int spoolCount = 0;//the # of times spooling has occured
 	public int jobCount = 0;//the #of jobs jobs.dat
+	public int runCount = 0;//the number of jobs that have been run thus far
 	public int tapeData;//the amount of data on the tape
 	public int diskData;//the amount of data on the disk
 	public int jobCode = 200;//the size of the jobCode for a job

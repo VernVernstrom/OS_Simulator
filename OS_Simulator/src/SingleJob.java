@@ -19,7 +19,7 @@ public class SingleJob extends Job {
 		}
 		}
 		//transfer from disk to memory after all units for this job are on the disk
-		
+		System.out.println("");//formatting
 		disk2memory();
 	}
 	

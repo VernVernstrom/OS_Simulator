@@ -8,7 +8,7 @@ public class MultiProBS extends Job {
 			System.out.println("Start executing job "+jobName+"                       "+ total_time +'\n');
 			execute(burst);
 		}
-		else
+		else 
 		{
 			int tapeCode = jobCode;//the amount of code for the  job that is on the tape and needs to be moved(200)
 			int block = tapeBlock;
@@ -27,6 +27,7 @@ public class MultiProBS extends Job {
 					}
 				}
 			//transfer code from disk to memory after all units for this job are on the disk
+			System.out.println("");//formatting
 			disk2memory();
 			}
 		}
@@ -110,6 +111,11 @@ public class MultiProBS extends Job {
 		if(spoolCount<jobCount-1)
 		{
 			spool();//move code from tape to disk
+			System.out.println("Disk to memory transfer - data for job "+spoolJob+ "    "+total_time);
+			total_time+=diskTime;
+			system_time+=diskTime;
+			System.out.println("Input buffer full for job " +spoolJob+"                 "+total_time);
+			savedBufferTime+=diskTime;
 		}
 		//otherwise execute a cpu burst
 		total_time -= savedBufferTime;//subtract time saved from total time
@@ -129,19 +135,28 @@ public class MultiProBS extends Job {
 		data_in_Buffer = 0;//burst uses up the data in the buffer
 		
 		if(jdCount>=jobLength){//job is completed
+
 			System.out.println("Job "+jobName+" done                                  " + total_time + '\n');
 			jdCount = 0;//reset for next job
 			data_in_Buffer = 0;//reset for next job
 			data_on_Disk = 0;//reset for next job
+
 		}
-		else  if(jdCount%2 != 0)//data ready to be brought in
+		else if(jdCount%2 != 0)//data ready to be brought in
 		{
 
 			System.out.println("Need data for job "+jobName+"                         "+ total_time +'\n');
 			System.out.println("Continue job "+jobName+"                              "+ total_time+'\n');
+			
 			jdCount+=1;//get cpu burst from job description
 			if((data_in_Buffer == 0)&&(jdCount<jobLength-1))//buffer is empty and the last data was processed
 			{
+				
+				total_time += 25;
+				//system_time += t;
+				//System.out.println(total_time);
+				
+				System.out.println("Data for job " + spoolJob +" on disk                      " +total_time + "\n");
 				dataDisk2Memory();
 			}
 			else
@@ -157,7 +172,7 @@ public class MultiProBS extends Job {
 	public void spool() {
 		
 		//create new string for naming the next job
-		String spoolJob = ""+jobCount;
+		spoolJob = ""+jobCount;
 		spoolCount+=1;
 		if(spoolCount == 1)
 		{
@@ -189,6 +204,25 @@ public class MultiProBS extends Job {
 			}
 			
 		}
+		int diskCode = jobCode;//the amount of code left on the disk that needs to be moved to memory
+		block = diskBlock;
+		t = diskTime;
+		//keep moving code for this job until it is all off the disk
+		System.out.println(diskCode);
+		while(diskCode > 0){
+			//move units into memory if memory has enough space
+			if( memSize >= block)
+			{
+				diskCode -= block;
+				memSize = memSize-block;
+				System.out.println("Disk to memory transfer - code for job "+spoolJob+ "    " + total_time);
+				total_time += t;
+				savedSpoolTime+=t;
+				
+				}
+			}
+
+		System.out.println("Code for job "+spoolJob+" one in memory                " + total_time +"\n");
 		int tapeData = jobData;
 		block = tapeBlock;
 		t = tapeTime;
@@ -199,38 +233,18 @@ public class MultiProBS extends Job {
 			{
 				tapeData -= block;
 				diskSize -= block; 
+				
 				data_on_Disk += block;//add a block of data to the disk
 				//System.out.println("Data_on_Disk: "+data_on_Disk);//debugging
 				System.out.println("Tape to Disk transfer - data for job "+spoolJob+"      " + total_time );
-				total_time += t;
-				system_time += t;
-				savedBufferTime+=t;
-			
+
 			}
 		}
-		System.out.println("Data for job " + spoolJob +" on disk                      " +total_time + "\n");
-		int diskCode = jobCode;//the amount of code left on the disk that needs to be moved to memory
-		block = diskBlock;
-		t = diskTime;
-		//keep moving code for this job until it is all off the disk
-		while(diskCode > 0){
-			//move units into memory if memory has enough space
-			if( memSize >= block)
-			{
-				diskCode -= block;
-				memSize = memSize-block;
-				System.out.println("Disk to memory transfer - code for job "+spoolJob+ "    " + total_time);
-				total_time += t;
-				savedSpoolTime +=t;
-				}
-			}
-	
-		System.out.println("Code for job "+spoolJob+" one in memory                " + total_time +"\n");
-
-		//transfer code from disk to memory after all units for this job are on the disk
 		
+		//gotoexecute
 			
 	}
 
 
 }
+
