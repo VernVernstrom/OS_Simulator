@@ -46,6 +46,7 @@ public class OS {
                 while(s2.hasNext()){
                 	
                 	j.jobDescription[j.jobLength] = Integer.parseInt(s2.next());
+                	
                 	//System.out.println("JobLength: "+j.jobLength);//debug
                 	j.jobLength+=1;	
                 	
@@ -57,6 +58,7 @@ public class OS {
                 	}
                 }
                 //execute the current job description
+                //j.burst = j.jobDescription[0];//set the size of the cpu burst
                 j.runCount+=1;
                 j.tape2Disk();  //run the job
                 

@@ -6,10 +6,12 @@ public class MultiProBS extends Job {
 		//if job code has already been spooled, execute CPU burst for the job
 		if(spoolCount > 1){
 			System.out.println("Start executing job "+jobName+"                       "+ total_time +'\n');
+			burst = jobDescription[jdCount];
 			execute(burst);
 		}
 		else 
 		{
+			
 			int tapeCode = jobCode;//the amount of code for the  job that is on the tape and needs to be moved(200)
 			int block = tapeBlock;
 			int t = tapeTime;
@@ -19,13 +21,14 @@ public class MultiProBS extends Job {
 				//move units into disk if disk has enough space
 				if (diskSize >= block)
 				{
+					
 					tapeCode -= block;
 					diskSize -= block;
 					System.out.println("Tape to Disk transfer - code for job "+jobName+"      " + total_time );
 					total_time += t;
 					system_time += t;
-					}
 				}
+			}
 			//transfer code from disk to memory after all units for this job are on the disk
 			System.out.println("");//formatting
 			disk2memory();
@@ -57,6 +60,7 @@ public class MultiProBS extends Job {
 		
 		if(jdCount == 0){
 			System.out.println("Start executing job "+jobName+"                       "+ total_time +'\n');
+			startTime = total_time;
 			//start buffering
 			dataTape2Disk();
 		}	
@@ -106,16 +110,19 @@ public class MultiProBS extends Job {
 				}
 			}
 		System.out.println("Input buffer full for job "+jobName+"                 "+ total_time+'\n');
-		
-		//spool next jobs code while there is more code to get
+			if(spoolCount>0){
+				System.out.println("Disk to memory transfer Ð data for job "+ spoolJob+"    "+total_time);
+				total_time+=t;
+				system_time+=t;
+				System.out.println("Input buffer full for job " +spoolJob+"                 "+total_time+'\n');
+				savedBufferTime+=t;
+				//spool next jobs code while there is more code to get
+			}
 		if(spoolCount<jobCount-1)
 		{
 			spool();//move code from tape to disk
-			System.out.println("Disk to memory transfer - data for job "+spoolJob+ "    "+total_time);
-			total_time+=diskTime;
-			system_time+=diskTime;
-			System.out.println("Input buffer full for job " +spoolJob+"                 "+total_time);
-			savedBufferTime+=diskTime;
+
+			
 		}
 		//otherwise execute a cpu burst
 		total_time -= savedBufferTime;//subtract time saved from total time
@@ -128,6 +135,7 @@ public class MultiProBS extends Job {
 	
 	@Override
 	public void execute(int burst) {//TODO fix the if then else of this method
+		
 		jdCount+=1;//increment for conditional control(get data from job description)
 		total_time+=burst-savedSpoolTime;
 		savedSpoolTime=0;
@@ -140,27 +148,38 @@ public class MultiProBS extends Job {
 			jdCount = 0;//reset for next job
 			data_in_Buffer = 0;//reset for next job
 			data_on_Disk = 0;//reset for next job
+			//spool next job if current job doesn't use any data
+			if(jobLength<2){
+				if(spoolCount<2){
+					spool();
+				}
+			}
 
 		}
 		else if(jdCount%2 != 0)//data ready to be brought in
 		{
-
-			System.out.println("Need data for job "+jobName+"                         "+ total_time +'\n');
-			System.out.println("Continue job "+jobName+"                              "+ total_time+'\n');
+			
+			//System.out.println("Need data for job "+jobName+"                         "+ total_time +'\n');
+			//System.out.println("Continue job "+jobName+"                              "+ total_time+'\n');
 			
 			jdCount+=1;//get cpu burst from job description
+			if(dataBuff == true){
+					timeA+=tapeTime;
+			//system_time += t;
+					System.out.println(total_time);
+					System.out.println("Data for job "+ spoolJob+" on disk                      "+timeA);
+					dataBuff = false;
+			}
+			//savedSpoolTime+=20;
 			if((data_in_Buffer == 0)&&(jdCount<jobLength-1))//buffer is empty and the last data was processed
 			{
 				
-				total_time += 25;
-				//system_time += t;
-				//System.out.println(total_time);
-				
-				System.out.println("Data for job " + spoolJob +" on disk                      " +total_time + "\n");
+
 				dataDisk2Memory();
 			}
 			else
 			{
+				
 				execute(burst);//no more data to buffer, do last burst.
 			}
 			
@@ -208,7 +227,7 @@ public class MultiProBS extends Job {
 		block = diskBlock;
 		t = diskTime;
 		//keep moving code for this job until it is all off the disk
-		System.out.println(diskCode);
+		//System.out.println(diskCode);debugging
 		while(diskCode > 0){
 			//move units into memory if memory has enough space
 			if( memSize >= block)
@@ -222,7 +241,7 @@ public class MultiProBS extends Job {
 				}
 			}
 
-		System.out.println("Code for job "+spoolJob+" one in memory                " + total_time +"\n");
+		System.out.println("Code for job "+spoolJob+" in memory                    " + total_time +"\n");
 		int tapeData = jobData;
 		block = tapeBlock;
 		t = tapeTime;
@@ -236,7 +255,20 @@ public class MultiProBS extends Job {
 				
 				data_on_Disk += block;//add a block of data to the disk
 				//System.out.println("Data_on_Disk: "+data_on_Disk);//debugging
-				System.out.println("Tape to Disk transfer - data for job "+spoolJob+"      " + total_time );
+				System.out.println("Tape to Disk transfer - data for job "+spoolJob+"      " + total_time+'\n' );
+				timeA = total_time;
+				dataBuff = true;
+				burst = jobDescription[jdCount];
+				startTime+=burst;
+				System.out.println("Need data for job "+jobName+"                         "+ startTime +'\n');
+				System.out.println("Continue job "+jobName+"                              "+ startTime+'\n');
+
+				total_time+=t;
+				savedSpoolTime+=t;
+				if(jobLength<2){
+					total_time+=diskTime;
+					System.out.println("Disk to memory transfer - data for job " +spoolJob+"    "+total_time); 
+				}
 
 			}
 		}

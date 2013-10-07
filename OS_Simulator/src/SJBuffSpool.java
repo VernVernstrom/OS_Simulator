@@ -104,7 +104,7 @@ public class SJBuffSpool extends Job {
 		System.out.println("Input buffer full for job "+jobName+"                 "+ total_time+'\n');
 		
 		//spool next jobs code while there is more code to get
-		if(spoolCount<jobCount)
+		if(spoolCount<jobCount-1)
 		{
 			spool();//move code from tape to disk
 		}

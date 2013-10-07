@@ -27,6 +27,9 @@ public abstract class Job {
 	public int jobLength;//the number of elements in jobDescription (i.e. 200 50 200 is 3)
 	public int jdCount = 0;//iterates the jobDescription array
 	public int burst;//the size of the cpu burst
+	public int startTime;//the time a job starts
+	public int timeA;//time for keeping track of multijob data buffering
+	public boolean dataBuff;//control for printing out data tape to disk transfer statement
 	public String jobName;//for string output formatting
 	public String spoolJob = "";
 	
